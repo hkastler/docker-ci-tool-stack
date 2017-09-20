@@ -24,6 +24,7 @@ groovy:2.0
 icon-shim:2.0.3
 javadoc:1.4
 jackson2-api:2.7.3
+jacoco:2.2.1
 job-dsl:1.65
 jobConfigHistory:2.17
 jquery:1.11.2-1
