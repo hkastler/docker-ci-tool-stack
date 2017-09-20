@@ -39,6 +39,7 @@ RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
 ############################################
 # Jenkins settings
 COPY config/config.xml /usr/share/jenkins/ref/config.xml
+COPY config/settings.xml /root/.m2/settings.xml
 
 # Jenkins Settings, i.e. Maven, Groovy, ...
 COPY config/hudson.tasks.Maven.xml /usr/share/jenkins/ref/hudson.tasks.Maven.xml
