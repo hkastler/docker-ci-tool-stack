@@ -3,25 +3,23 @@ version: '2'
 networks:
   prodnetwork:
     driver: bridge
-  wildflynetwork:
-    driver: bridge
 
 services:
  nexus:
-  image: sonatype/nexus3
+  build: ./nexus
   ports:
     - "8081:8081"
   volumes:
     - C:\apps\nexus\nexus-data:/nexus-data
- wildfly:
+ arquillian:
    build: ./wildfly
    ports:
      - 10080:10080
-     - 10990:10990
+     - 11990:11990
    volumes:
      - C:\apps\arquillian\wildfly\wildfly-10.1.0.Final:/opt/jboss/wildfly
    networks:
-     - wildflynetwork
+    - prodnetwork
  jenkins:
   build: ./jenkins
   ports:
@@ -30,10 +28,8 @@ services:
     - prodnetwork
   volumes:
     - C:\apps\jenkins-docker:/var/jenkins_home
-    - C:\Users\henry.kastler\openshift_sites:/openshift_sites
-  
   depends_on:
-    - wildfly
+    - arquillian
     - sonar
     - nexus
   environment:
