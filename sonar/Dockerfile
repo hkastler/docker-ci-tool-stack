@@ -1,7 +1,7 @@
 #
 # Creates a docker container with SonarQube, incl. several plugins
 #
-FROM centos:latest
+FROM centos:7
 
 LABEL maintainer="Henry Kastler <hkastler+github@gmail.com>" 
 
@@ -10,7 +10,7 @@ ENV JAVA_OPTS "$JAVA_OPTS -Duser.country=US -Duser.language=en -Duser.timezone=C
 # Set the JAVA_HOME variable to make it clear where Java is located
 ENV JAVA_HOME /usr/lib/jvm/java-1.8.0
 
-ENV SONAR_VERSION 5.6.6
+ENV SONAR_VERSION 5.6.3
 ENV SONARQUBE_HOME /opt/sonarqube
 
 # Plugin Versions
