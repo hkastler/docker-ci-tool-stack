@@ -28,6 +28,7 @@ services:
     - prodnetwork
   volumes:
     - C:\apps\jenkins-docker:/var/jenkins_home
+    - C:\apps\nexus\repository:/nexus/repository
   depends_on:
     - arquillian
     - sonar

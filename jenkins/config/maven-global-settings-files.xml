@@ -9,6 +9,10 @@
         <comment>global settings</comment>
         <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
 &lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.1.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd&quot;&gt;
+  
+  &lt;localRepository&gt;
+      /nexus/repository
+  &lt;/localRepository&gt;
   &lt;mirrors&gt;
     &lt;mirror&gt;
       &lt;!--This sends everything else to /public --&gt;
