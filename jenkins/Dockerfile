@@ -40,6 +40,11 @@ RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
 # Jenkins settings
 COPY config/config.xml /usr/share/jenkins/ref/config.xml
 
+#Jobs
+# Adding default Jenkins Jobs
+COPY jobs/arquillian-wget-management-config.xml /usr/share/jenkins/ref/jobs/arquillian-wget-management-config/config.xml
+COPY jobs/sonar-wget-config.xml /usr/share/jenkins/ref/jobs/sonar-wget-config/config.xml
+
 
 # Jenkins Settings, i.e. Maven, Groovy, ...
 COPY config/hudson.tasks.Maven.xml /usr/share/jenkins/ref/hudson.tasks.Maven.xml
