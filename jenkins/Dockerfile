@@ -29,6 +29,15 @@ RUN apt-get update \
       && rm -rf /var/lib/apt/lists/*
 RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN apt-get install -y nodejs
+RUN apt-get install npm
+
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && sudo apt-get install yarn
+
+
 # getting the docker-cli
 # --- Attention: docker.sock needs to be m#preinstalling-plugins
 COPY plugins.txt /var/jenkins_home/plugins.txt
