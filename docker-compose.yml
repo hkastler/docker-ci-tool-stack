@@ -11,6 +11,8 @@ services:
     - "8081:8081"
   volumes:
     - C:\apps\nexus\nexus-data:/nexus-data
+  networks:
+    - prodnetwork
  arquillian:
    build: ./wildfly
    ports:
@@ -18,6 +20,7 @@ services:
      - "11990:11990"
    volumes:
      - C:\apps\arquillian\wildfly\wildfly-10.1.0.Final:/opt/jboss/wildfly
+     - C:\etc\opt:/etc/opt
    networks:
     - prodnetwork
  jenkins:
@@ -52,6 +55,8 @@ services:
       - C:\apps\sonarqube\data:/opt/sonarqube/data
       - C:\apps\sonarqube\extensions:/opt/sonarqube/extensions
       - C:\apps\sonarqube\lib\bundled-plugins:/opt/sonarqube/lib/bundled-plugins
+    depends_on:
+      - sonardb
    
  sonardb:
   ports:
@@ -62,4 +67,5 @@ services:
   environment:
    - POSTGRES_USER=sonar
    - POSTGRES_PASSWORD=sonar
+
 
