@@ -13,16 +13,17 @@ services:
     - C:\apps\nexus\nexus-data:/nexus-data
   networks:
     - prodnetwork
+
  arquillian:
    build: ./wildfly
    ports:
      - "10080:10080"
      - "11990:11990"
    volumes:
-     - C:\apps\arquillian\wildfly\wildfly-10.1.0.Final:/opt/jboss/wildfly
      - C:\etc\opt:/etc/opt
    networks:
     - prodnetwork
+
  jenkins:
   build: ./jenkins
   ports:
@@ -42,6 +43,7 @@ services:
     - SONAR_PORT=9000
     - SONAR_DB_PORT=5432
     - LANG=en_US.UTF-8
+    
  sonarqube:
     image: sonarqube
     ports:
