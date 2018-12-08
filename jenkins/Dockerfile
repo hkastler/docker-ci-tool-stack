@@ -13,17 +13,18 @@ RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 # getting the docker-cli
 # --- Attention: docker.sock needs to be mounted as volume in docker-compose.yml
+
 # see: https://issues.jenkins-ci.org/browse/JENKINS-35025
 # see: https://get.docker.com/builds/
 # see: https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Docker+Custom+Build+Environment+Plugin#CloudBeesDockerCustomBuildEnvironmentPlugin-DockerinDocker
 RUN curl -sSL -O https://get.docker.com/builds/Linux/x86_64/docker-latest.tgz && tar -xvzf docker-latest.tgz
 RUN mv docker/* /usr/bin/
 
-USER jenkins
+# Install Google Chrome
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+RUN apt-get update && apt-get install -y google-chrome-stable
 
-# installing specific list of plugins. see: https://github.com/jenkinsci/dockerFROM jenkins:2.19.4
-
-USER root
 RUN apt-get update \
       && apt-get install -y sudo curl\
       && rm -rf /var/lib/apt/lists/*
@@ -37,9 +38,8 @@ RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update && sudo apt-get install yarn
 
-
-# getting the docker-cli
-# --- Attention: docker.sock needs to be m#preinstalling-plugins
+USER jenkins
+# installing specific list of plugins. see: https://github.com/jenkinsci/dockerFROM jenkins:2.19.4
 COPY plugins.txt /var/jenkins_home/plugins.txt
 RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
 
