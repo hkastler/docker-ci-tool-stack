@@ -5,7 +5,7 @@
       <string>org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig1435422191538</string>
       <org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig>
         <id>org.jenkinsci.plugins.configfiles.maven.GlobalMavenSettingsConfig1435422191538</id>
-        <name>MyGlobalSettings</name>
+        <name>DockerCIToolstackGlobalSettings</name>
         <comment>global settings</comment>
         <content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
 &lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.1.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd&quot;&gt;
@@ -18,7 +18,7 @@
       &lt;!--This sends everything else to /public --&gt;
       &lt;id&gt;nexus&lt;/id&gt;
       &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;
-      &lt;url&gt;http://cosmicmachine:8081/repository/central/&lt;/url&gt;
+      &lt;url&gt;http://nexus:8081/repository/central/&lt;/url&gt;
     &lt;/mirror&gt;
   &lt;/mirrors&gt;
   &lt;servers&gt;
@@ -35,7 +35,7 @@
               &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
           &lt;/activation&gt;
           &lt;properties&gt;
-              &lt;sonar.host.url&gt;http://sonar:9000&lt;/sonar.host.url&gt;
+              &lt;sonar.host.url&gt;http://sonarqube:9000&lt;/sonar.host.url&gt;
               &lt;!-- Optional URL to server. Default value is http://localhost:9000 --&gt;
           &lt;/properties&gt;
       &lt;/profile&gt;
