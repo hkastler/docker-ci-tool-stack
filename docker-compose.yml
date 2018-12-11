@@ -1,8 +1,8 @@
 version: '2'
 
 networks:
-  prodnetwork:
-    driver: bridge
+  devnetwork:
+    driver: bridge  
 
 services:
  nexus:
@@ -12,7 +12,7 @@ services:
   volumes:
     - C:\apps\nexus\nexus-data:/nexus-data
   networks:
-    - prodnetwork
+    - devnetwork
 
  arquillian:
    build: ./wildfly
@@ -22,14 +22,14 @@ services:
    volumes:
      - C:\etc\opt:/etc/opt
    networks:
-    - prodnetwork
+    - devnetwork
 
  jenkins:
   build: ./jenkins
   ports:
     - "8000:8080"
   networks:
-    - prodnetwork
+    - devnetwork
   volumes:
     - C:\etc\opt\text-analysis-project:/etc/opt/text-analysis-project
     - C:\apps\jenkins-docker:/var/jenkins_home
@@ -49,7 +49,7 @@ services:
     ports:
       - "9000:9000"
     networks:
-      - prodnetwork
+      - devnetwork
     environment:
       - SONARQUBE_JDBC_URL=jdbc:postgresql://sonardb:5432/sonar
     volumes:
@@ -64,17 +64,26 @@ services:
   ports:
     - "5432:5432"
   networks:
-    - prodnetwork
+    - devnetwork
   image: postgres
   environment:
    - POSTGRES_USER=sonar
    - POSTGRES_PASSWORD=sonar
 
+   
  jaeger:
-  image: jaegertracing/all-in-one
+  image: jaegertracing/all-in-one:1.8
+  environment:
+    - COLLECTOR_ZIPKIN_HTTP_PORT=9411
   ports: 
-    - "6831:6831"
+    - "5775:5775/udp"
+    - "6831:6831/udp"
+    - "6832:6832/udp"
+    - "5778:5778"
     - "16686:16686"
-
-
+    - "14268:14268"
+    - "9411:9411"
+  networks: 
+    - devnetwork
+  hostname: "jaeger"
 
