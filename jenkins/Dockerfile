@@ -3,6 +3,11 @@ FROM jenkins/jenkins:lts
 LABEL maintainer="Henry Kastler <hkastler+github@gmail.com>" 
 
 USER root
+
+#locale
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8 
+
 RUN apt-get update
 #need for jsf development; openjdk8 lacks javafx
 RUN apt-get install -y openjfx
