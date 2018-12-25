@@ -41,7 +41,8 @@ RUN apt-get update && sudo apt-get install yarn
 USER jenkins
 # installing specific list of plugins. see: https://github.com/jenkinsci/dockerFROM jenkins:2.19.4
 COPY plugins.txt /var/jenkins_home/plugins.txt
-RUN /usr/local/bin/plugins.sh /var/jenkins_home/plugins.txt
+#upgrade to install-plugins
+RUN /usr/local/bin/install-plugins.sh $(cat /var/jenkins_home/plugins.txt | tr '\n' ' ')
 
 ############################################
 # Configure Jenkins
