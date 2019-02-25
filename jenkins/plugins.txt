@@ -72,7 +72,6 @@ rebuild:1.29
 resource-disposer:0.12
 run-condition:1.2
 scm-api:2.3.0
-scp:1.8
 script-security:1.53
 sonar:2.8.1
 ssh-agent:1.17
@@ -99,4 +98,3 @@ workflow-step-api:2.19
 workflow-support:3.2
 ws-cleanup:0.37
 xunit:2.3.2
-xvfb:1.1.3
