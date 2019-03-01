@@ -1,0 +1,60 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>from nexus to prod via ssh</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.29">
+      <autoRebuild>false</autoRebuild>
+      <rebuildDisabled>false</rebuildDisabled>
+    </com.sonyericsson.rebuild.RebuildSettings>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/sh
+GROUP_ID=com/hkstlr
+PROJECT=text-analysis-service
+HOST=www.hkstlr.com
+NEXUS_URL=http://nexus:8081/repository/maven-releases
+LATEST=$(curl -s &quot;${NEXUS_URL}/${GROUP_ID}/${PROJECT}/maven-metadata.xml&quot; | \
+grep &quot;&lt;release&gt;.*&lt;/release&gt;&quot; | sort | uniq | tail -n1 | sed -e &quot;s#\(.*\)\(&lt;release&gt;\)\(.*\)\(&lt;/release&gt;\)\(.*\)#\3#g&quot;)
+VERSION=${LATEST}
+NEXUS_WAR_NAME=${PROJECT}-${VERSION}.war
+WAR_NAME=${PROJECT}.war
+DEPLOY_DIR=/opt/jboss/wildfly/standalone/deployments
+
+wget ${NEXUS_URL}/com/hkstlr/${PROJECT}/${VERSION}/${NEXUS_WAR_NAME}
+echo &quot;Deploying &apos;$WAR_NAME&apos; from &apos;$WAR_PATH&apos; to &apos;$HOST&apos;&quot;
+echo &apos;-------------------&apos;
+
+mv ${NEXUS_WAR_NAME} ${WAR_NAME}
+
+echo &quot;-&gt; ssh ${WAR_NAME}&quot;
+echo &quot;----- scp-war ${KEYFILE} -----&quot;
+scp ${WAR_NAME} ec2-user@$HOST:~/.
+echo &quot;-----ssh chown mv deploy-----&quot;
+ssh -T ec2-user@$HOST &quot;sudo chown jboss:jboss ~/${WAR_NAME}&quot;
+ssh -T ec2-user@$HOST &quot;sudo mv ~/${WAR_NAME} ${DEPLOY_DIR}&quot;
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers>
+    <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@1.17">
+      <bindings class="empty-list"/>
+    </org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
+    <com.cloudbees.jenkins.plugins.sshagent.SSHAgentBuildWrapper plugin="ssh-agent@1.17">
+      <credentialIds>
+        <string></string>
+      </credentialIds>
+      <ignoreMissing>false</ignoreMissing>
+    </com.cloudbees.jenkins.plugins.sshagent.SSHAgentBuildWrapper>
+  </buildWrappers>
+</project>
