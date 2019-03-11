@@ -30,7 +30,7 @@ NEXUS_WAR_NAME=${PROJECT}-${VERSION}.war
 WAR_NAME=${PROJECT}.war
 DEPLOY_DIR=/opt/jboss/wildfly/standalone/deployments
 
-wget ${NEXUS_URL}/com/hkstlr/${PROJECT}/${VERSION}/${NEXUS_WAR_NAME}
+wget ${NEXUS_URL}/${GROUP_ID}/${PROJECT}/${VERSION}/${NEXUS_WAR_NAME}
 echo &quot;Deploying &apos;$WAR_NAME&apos; from &apos;$WAR_PATH&apos; to &apos;$HOST&apos;&quot;
 echo &apos;-------------------&apos;
 
